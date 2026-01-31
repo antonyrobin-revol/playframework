@@ -33,9 +33,9 @@ public class WidgetController extends Controller {
         this.form = formFactory.form(WidgetData.class);
         this.messagesApi = messagesApi;
         this.widgets = com.google.common.collect.Lists.newArrayList(
-                new Widget("Data 1", 123),
-                new Widget("Data 2", 456),
-                new Widget("Data 3", 789)
+                new Widget("Data 1", 123, ""),
+                new Widget("Data 2", 456, ""),
+                new Widget("Data 3", 789,"")
         );
     }
 
@@ -52,10 +52,10 @@ public class WidgetController extends Controller {
 
         if (boundForm.hasErrors()) {
             logger.error("errors = {}", boundForm.errors());
-            return badRequest(views.html.listWidgets.render(asScala(widgets), boundForm, request, messagesApi.preferred(request)));
+            return badRequest(views.html.listWidgets.render(asScala(widgets), boundForm, request, messagesApi.preferred(request))).flashing("info", "Validation failed");
         } else {
             WidgetData data = boundForm.get();
-            widgets.add(new Widget(data.getName(), data.getPrice()));
+            widgets.add(new Widget(data.getName(), data.getPrice(), data.getDescription()));
             return redirect(routes.WidgetController.listWidgets())
                 .flashing("info", "Widget added!");
         }

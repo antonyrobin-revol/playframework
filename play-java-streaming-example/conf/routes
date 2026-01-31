@@ -12,6 +12,9 @@ GET        /java/comet/liveClock               controllers.JavaCometController.s
 GET        /java/eventSource                   controllers.JavaEventSourceController.index(request: Request)
 GET        /java/eventSource/liveClock         controllers.JavaEventSourceController.streamClock()
 
+GET        /java/api                           controllers.AiStreamController.index(request: Request)
+GET        /java/api/ai-stream                 controllers.AiStreamController.streamData()
+
 GET        /javascriptRoutes                  controllers.HomeController.javascriptRoutes(request: Request)
 
 # Map static resources from the /public folder to the /assets URL path

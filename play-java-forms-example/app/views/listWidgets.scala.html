@@ -12,11 +12,11 @@
 
     <table>
         <thead>
-            <tr><th>Name</th><th>Price</th>
+            <tr><th>Name</th><th>Price</th><th>Description</th>
         </thead>
         <tbody>
         @for(w <- widgets) {
-            <tr><td>@w.name</td><td>@w.price</td></tr>
+            <tr><td>@w.name</td><td>@w.price</td><td>@w.description</td></tr>
         }
         </tbody>
     </table>
@@ -35,9 +35,27 @@
     @helper.form(routes.WidgetController.createWidget()) {
         @helper.CSRF.formField
 
-        @helper.inputText(form("name"))
+        @* Using raw input fields instead of helper methods to avoid built-in labels *@
+        <label for="name">Item Name</label>
+        <input type="text" id="name" name="name" value="@form("name").value.getOrElse("")" />
 
-        @helper.inputText(form("price"))
+        @if(form("name").hasErrors) {
+        <span class="error">@form("name").errors.mkString(", ")</span>
+        }
+
+        <label for="price">Price</label>
+        <input type="text" id="price" name="price" value="@form("price").value.getOrElse("")" />
+
+        @if(form("price").hasErrors) {
+        <span class="error">@form("price").errors.mkString(", ")</span>
+        }
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description">@form("description").value.getOrElse("")</textarea>
+
+        @if(form("description").hasErrors) {
+        <span class="error">@form("description").errors.mkString(", ")</span>
+        }
 
         <button type="submit">Create widget</button>
     }
